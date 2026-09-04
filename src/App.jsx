@@ -14,10 +14,12 @@ function App() {
       <header>
         {/* THIS IS A COMMENT */}
         <div className="CLASS">
-            <Component variable={variable} />
+            {/* Header Component <Component variable={variable} /> */}
         </div>
       </header>
       <main>
+        {/* Blog Posts Compoment*/}
+        {/* SideBar Component */}
       </main>
     </>
   );
