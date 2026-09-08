@@ -1,0 +1,22 @@
+nav {
+    margin: 0 auto;
+    padding: 0 2rem;
+    background-color: green;
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.siteTitle {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.icons {
+    display: flex;
+    justify-content: end;
+    gap: 1rem;
+    align-items: center;
+}
