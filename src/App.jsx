@@ -143,11 +143,11 @@ There is still plenty to learn, but the pieces are finally starting to fit toget
 
 
 function App() {
-  // USE STATE EXAMPLE
-
+  // Set the theme for the site
   const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
 
   const themeToggle = (theme) => {
+    // Toggle the theme between light and dark
     const newTheme = theme === "light" ? "dark" : "light";
     localStorage.setItem("theme", newTheme)
     document.documentElement.dataset.theme = newTheme;
