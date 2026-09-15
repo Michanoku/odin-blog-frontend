@@ -1,5 +1,8 @@
 import { useState } from "react";
 import Header from "./components/Header.jsx";
+import Blog from "./components/Blog.jsx";
+import { Login, Logout, Profile } from "./components/User.jsx";
+
 // ASSET IMPORT EXAMPLE: import ASSET from "./assets/ASSET.FILEENDING";
 import "./styles/index.css";
 
@@ -164,8 +167,7 @@ function App() {
     <>
       <Header user={user} theme={theme} themeToggle={themeToggle} />
       <main>
-        <section></section>
-        <aside></aside>
+        <Blog />
       </main>
     </>
   );
