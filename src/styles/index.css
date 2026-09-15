@@ -69,18 +69,18 @@ main {
   grid-template-areas: "section aside";
 }
 
-.responsive-padding {
+.responsivePadding {
   padding-inline: clamp(0.375rem, 4vw, 1.25rem);
 }
 
 @media screen and (min-width: 992px) {
-  .responsive-padding {
+  .responsivePadding {
     padding-inline: clamp(1.25rem, 12.3vw, 10rem);
   }
 }
 
 @media screen and (min-width: 2000px) {
-  .responsive-padding {
+  .responsivePadding {
     padding-inline: 12rem;
   }
 }

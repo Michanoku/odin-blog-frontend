@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Header from "./components/Header.jsx";
 import Blog from "./components/Blog.jsx";
-import { Login, Logout, Profile } from "./components/User.jsx";
+import { Login, Register, Profile } from "./components/User.jsx";
 
 // ASSET IMPORT EXAMPLE: import ASSET from "./assets/ASSET.FILEENDING";
 import "./styles/index.css";
@@ -146,6 +146,9 @@ function App() {
   // Set the theme for the site
   const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
 
+  // Set the view for the site
+  const [view, setView] = useState("home");
+
   // Fake user for now
   const fakeUser = {
     id: 42,
@@ -165,9 +168,12 @@ function App() {
 
   return (
     <>
-      <Header user={user} theme={theme} themeToggle={themeToggle} />
+      <Header user={user} theme={theme} themeToggle={themeToggle} setView={setView} />
       <main>
-        <Blog />
+        {view === "home" && <Blog />}
+        {view === "profile" && <Profile />}
+        {view === "login" && <Login />}
+        {view === "register" && <Register />}
       </main>
     </>
   );

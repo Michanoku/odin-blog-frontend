@@ -1,5 +1,5 @@
 // The blog function
-export default function Header({ user, theme, themeToggle }) {
+export default function Blog() {
   return (
     <>
       <section></section>

@@ -52,7 +52,7 @@ nav {
   align-items: center;
 }
 
-.dropdown-menu {
+.dropdownMenu {
   padding: 0.5rem 1rem;
   display: flex;
   flex-direction: column;
@@ -73,7 +73,7 @@ nav {
     opacity 300ms ease-in-out;
 }
 
-.dropdown-menu.open {
+.dropdownMenu.open {
   opacity: 1;
   transform: translateY(2.5rem);
   pointer-events: auto;
