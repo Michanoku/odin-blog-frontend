@@ -2,10 +2,8 @@ import { useState } from "react";
 import Header from "./components/Header.jsx";
 // ASSET IMPORT EXAMPLE: import ASSET from "./assets/ASSET.FILEENDING";
 import "./styles/index.css";
-import "./styles/header.css";
 
-const variable = "something";
-
+// Dummy data to use before the API is hooked up
 const dummyUsers = [
   {
     id: "user-1",
@@ -104,7 +102,8 @@ There is still plenty to learn, but the pieces are finally starting to fit toget
     id: "post-4",
     createdAt: "2026-08-27T11:00:00.000Z",
     publishedAt: "2026-08-28T08:30:00.000Z",
-    title: "A Much Longer Blog Post Title That Lets Us Test How the Layout Handles Titles With Lots of Text",
+    title:
+      "A Much Longer Blog Post Title That Lets Us Test How the Layout Handles Titles With Lots of Text",
     body: "Sometimes you need an unnecessarily long title just to make sure your CSS does not fall apart. This post exists for exactly that reason.",
     category: "Design",
     slug: "a-much-longer-blog-post-title-that-lets-us-test-layout",
@@ -140,23 +139,30 @@ There is still plenty to learn, but the pieces are finally starting to fit toget
   },
 ];
 
-
-
 function App() {
   // Set the theme for the site
   const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
 
+  // Fake user for now
+  const fakeUser = {
+    id: 42,
+    username: "Michael",
+    email: "michael@example.com",
+  };
+  const [user, setUser] = useState(null);
+
+  // The theme toggle function will flip on the document so set it up here
   const themeToggle = (theme) => {
     // Toggle the theme between light and dark
     const newTheme = theme === "light" ? "dark" : "light";
-    localStorage.setItem("theme", newTheme)
+    localStorage.setItem("theme", newTheme);
     document.documentElement.dataset.theme = newTheme;
     setTheme(newTheme);
-  }
-  
+  };
+
   return (
     <>
-      <Header theme={theme} themeToggle={themeToggle}/>
+      <Header user={user} theme={theme} themeToggle={themeToggle} />
       <main>
         <section></section>
         <aside></aside>
