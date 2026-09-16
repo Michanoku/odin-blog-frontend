@@ -17,3 +17,23 @@ aside {
     justify-content: start;
     align-items: center;
 }
+
+.blogPost {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: 100%;
+  padding: 1rem;
+}
+
+.backLink {
+  align-self: start;
+}
+
+.blogContent {
+  font-size: 1rem;
+  min-width: 66ch;
+  max-width: 66ch;
+  align-self: center;
+  text-align: start;
+}
