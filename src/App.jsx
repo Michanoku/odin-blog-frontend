@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Blog from "./components/Blog.jsx";
 import { Login, Register, Profile } from "./components/User.jsx";
@@ -166,14 +167,36 @@ function App() {
     setTheme(newTheme);
   };
 
+  function ProtectedRoute({ user, children }) {
+    if (!user) {
+      return <Navigate to="/login" replace />;
+    }
+
+    return children;
+  }
+
   return (
     <>
-      <Header user={user} theme={theme} themeToggle={themeToggle} setView={setView} />
+      <Header
+        user={user}
+        setUser={setUser}
+        theme={theme}
+        themeToggle={themeToggle}
+      />
       <main>
-        {view === "home" && <Blog />}
-        {view === "profile" && <Profile />}
-        {view === "login" && <Login />}
-        {view === "register" && <Register />}
+        <Routes>
+          <Route path="/" element={<Blog user={user} />} />
+          <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/register" element={<Register setUser={setUser} />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute user={user}>
+                <Profile user={user} setUser={setUser} />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
       </main>
     </>
   );

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Sun,
   Moon,
@@ -10,18 +11,20 @@ import {
   UserPen,
 } from "lucide-react";
 import "../styles/header.css";
-const apiUrl = import.meta.env.VITE_API_URL;
-
-function loadView(event, target, setView) {
-  event.preventDefault();
-
-  setView(target);
-  window.history.pushState({}, "", target === "home" ? "/" : `/${target}`);
-}
 
 // The user menu dropdown component
-function Dropdown({ user, setView }) {
+function Dropdown({ user, setUser }) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  function logoutUser(event) {
+    event.preventDefault();
+    localStorage.removeItem("token");
+    setUser(null);
+    setOpen(false);
+    navigate("/");
+  }
+
   useEffect(() => {
     function handleClick(event) {
       // Close dropdown if clicked outside
@@ -43,38 +46,26 @@ function Dropdown({ user, setView }) {
   // Content is based on user being logged in or not
   const content = user ? (
     <>
-      <a
-        className="icon link"
-        href={`${apiUrl}/profile`}
-        onClick={(event) => loadView(event, "profile", setView)}
-      >
+      <Link className="icon" to="/profile" onClick={() => setOpen(false)}>
         <UserPen /> Profile
-      </a>
-      <a className="icon link" href={`${apiUrl}/logout`} onClick={""}>
+      </Link>
+      <button className="icon" onClick={logoutUser}>
         <LogOut /> Logout
-      </a>
+      </button>
     </>
   ) : (
     <>
-      <a
-        className="icon link"
-        href={`${apiUrl}/login`}
-        onClick={(event) => loadView(event, "login", setView)}
-      >
+      <Link className="icon" to="/login" onClick={() => setOpen(false)}>
         <LogIn /> Login
-      </a>
-      <a
-        className="icon link"
-        href={`${apiUrl}/register`}
-        onClick={(event) => loadView(event, "register", setView)}
-      >
+      </Link>
+      <Link className="icon" to="/register" onClick={() => setOpen(false)}>
         <UserPlus /> Register
-      </a>
+      </Link>
     </>
   );
   return (
     <div className="dropdown">
-      <button className="icon button" onClick={toggleDropdown}>
+      <button className="icon" onClick={toggleDropdown}>
         <User />
       </button>
       <div className={open ? "dropdownMenu open" : "dropdownMenu"}>
@@ -89,27 +80,23 @@ function ThemeToggle({ theme, themeToggle }) {
   // Set the icon to the current theme
   const icon = theme === "light" ? <Sun /> : <Moon />;
   return (
-    <button className="icon button" onClick={() => themeToggle(theme)}>
+    <button className="icon" onClick={() => themeToggle(theme)}>
       {icon}
     </button>
   );
 }
 
 // The header function
-export default function Header({ user, theme, themeToggle, setView }) {
+export default function Header({ user, setUser, theme, themeToggle }) {
   return (
     <header>
       <nav>
-        <div className="siteTitle">Michanoku Blog</div>
+        <h1 className="siteTitle">Michanoku Blog</h1>
         <div className="icons">
-          <a
-            className="icon link"
-            href={`${apiUrl}/`}
-            onClick={(event) => loadView(event, "home", setView)}
-          >
+          <Link className="icon" to="/">
             <House />
-          </a>
-          <Dropdown user={user} setView={setView} />
+          </Link>
+          <Dropdown user={user} setUser={setUser} />
           <ThemeToggle theme={theme} themeToggle={themeToggle} />
         </div>
       </nav>
