@@ -1,8 +1,9 @@
 :root {
   --color-button-hover: #f5f7fa;
   --color-button: #ffffff;
-  --color-bg: #f5f7fa;
-  --color-surface: #ffffff;
+  --color-bg: #ffffff;  
+  --color-surface: #f8fafc;
+  --color-surface-alt: #f3f3f3;
   --color-text: #17202a;
   --color-muted: #667085;
   --color-accent: #2563eb;
@@ -24,13 +25,14 @@
 }
 
 :root[data-theme="dark"] {
-  --color-bg: #0d1117;
-  --color-surface: #151c25;
+  --color-bg: #0d1117;        
+  --color-surface: #1a222d;  
+  --color-surface-alt: #202a36; 
   --color-text: #e6edf3;
   --color-muted: #8b98a8;
   --color-accent: #4d8dff;
   --color-accent-hover: #6a9eff;
-  --color-border: #28313d;
+  --color-border: #384657;
 }
 
 * {
@@ -48,17 +50,6 @@ body {
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   display: grid;
   grid-template-rows: auto 1fr;
-}
-
-section {
-  font-family: Georgia, "Times New Roman", serif;
-  background-color: red;
-  grid-area: section;
-}
-
-aside {
-  background-color: blue;
-  grid-area: aside;
 }
 
 main {
