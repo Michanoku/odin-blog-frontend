@@ -1,0 +1,7 @@
+.userInfo {
+    margin: 0.5rem;
+    display: flex;
+    gap: 0.25rem;
+    justify-content: start;
+    align-items: center;
+}

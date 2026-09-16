@@ -27,6 +27,7 @@ nav {
 
 .icon {
   display: flex;
+  font-size: 1.125rem;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;

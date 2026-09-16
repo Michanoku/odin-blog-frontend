@@ -148,14 +148,6 @@ function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
 
   // Set the view for the site
-  const [view, setView] = useState("home");
-
-  // Fake user for now
-  const fakeUser = {
-    id: 42,
-    username: "Michael",
-    email: "michael@example.com",
-  };
   const [user, setUser] = useState(null);
 
   // The theme toggle function will flip on the document so set it up here
