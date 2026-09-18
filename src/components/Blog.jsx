@@ -43,11 +43,19 @@ function BlogLink({ post }) {
 }
 
 // The list of blog articles
-function BlogList() {
+function BlogList({ setCategories }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    getPosts().then(setPosts);
+    getPosts().then((posts) => {
+      setPosts(posts);
+
+      const uniqueCategories = [
+        ...new Set(posts.map((post) => post.category).filter(Boolean)),
+      ];
+
+      setCategories(uniqueCategories);
+    });
   }, []);
 
   return (
@@ -123,9 +131,9 @@ function BlogPost({ postId }) {
 }
 
 export default function Blog({ user }) {
+  const [categories, setCategories] = useState([]);
   const { postId } = useParams();
-
-  const content = postId ? <BlogPost postId={postId} /> : <BlogList />;
+  const content = postId ? <BlogPost postId={postId} /> : <BlogList setCategories={setCategories} />;
 
   return (
     <>
@@ -137,6 +145,9 @@ export default function Blog({ user }) {
             <span>{user.username}</span>
           </div>
         )}
+      {categories.map((category) => (
+        <div key={category}>{category}</div>
+      ))}
       </aside>
     </>
   );
