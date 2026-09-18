@@ -3,7 +3,7 @@
   color: var(--color-text);
 }
 
-h2 {
+.userHeader {
     margin: 1rem;
     text-align: center;
 }

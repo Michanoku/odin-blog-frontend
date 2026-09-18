@@ -5,22 +5,39 @@ import { ArrowLeft } from "lucide-react";
 import { getPosts, getSinglePost, getAllComments } from "../api/content.js";
 import "../styles/blog.css";
 
-// A single blog post link1
+// A single blog post link
 function BlogLink({ post }) {
+  // Helper function to truncate blog body text to display in the list
+  function truncateText(text, maxLength) {
+    // If the text is already shorter, just return
+    if (text.length <= maxLength) return text;
+
+    // Else, slice and trim, don't cut off any words but add ...
+    return (
+      text
+        .slice(0, maxLength)
+        .trimEnd()
+        .replace(/\s+\S*$/, "") + "…"
+    );
+  }
+
   return (
-    <div className="blogPost">
-      <div className="upperInfo">
-        <div className="authorName">{post.user.username}</div>
-        <div className="publishedAt">{post.publishedAt}</div>
-        <div className="category">{post.category}</div>
+    <div className="blogContent blogLink">
+      <div>
+        {post.user.username} /{" "}
+        <span className="blogMeta">
+          {post.category} /{" "}
+          {new Date(post.publishedAt)
+            .toISOString()
+            .slice(0, 16)
+            .replace("T", " ")}
+        </span>
       </div>
-      <div className="mainContent">
-        <img className="blogImage" src={null} />
-        <div className="bodyPreview">{post.body}TRUNCATED</div>
-        <Link className="postLink" to={`/posts/${post.id}`}>
-          Read more...
-        </Link>
-      </div>
+      <h3 className="blogHeader">{post.title}</h3>
+      <div className="bodyPreview">{truncateText(post.body, 150)}</div>
+      <Link className="postLink" to={`/posts/${post.id}`}>
+        Read more...
+      </Link>
     </div>
   );
 }
@@ -34,7 +51,8 @@ function BlogList() {
   }, []);
 
   return (
-    <div className="blogList">
+    <div className="blogPost">
+      <h2 className="listTitle">Recent posts</h2>
       {posts.map((post) => (
         <BlogLink key={post.id} post={post} />
       ))}
@@ -62,26 +80,42 @@ function BlogPost({ postId }) {
   return (
     <>
       <div className="blogPost">
-        <Link className="icon backLink" to="/posts">
-          <ArrowLeft />
-        </Link>
         <div className="blogContent">
-          <h2>{post.title}</h2>
-          <div>{post.body}</div>
+          <Link className="backLink" to="/">
+            <ArrowLeft />
+          </Link>
+          <h2 className="blogHeader">{post.title}</h2>
+          <div className="blogMeta">
+            Written by {post.user.username} on{" "}
+            {new Date(post.publishedAt)
+              .toISOString()
+              .slice(0, 16)
+              .replace("T", " ")}
+          </div>
+          <div className="blogCategories">
+            <div className="blogCategory">{post.category}</div>
+          </div>
+          <div className="blogBody">{post.body}</div>
         </div>
-        <hr/>
-        <h3>Comments</h3>
+        <hr />
+
         <div className="blogComments">
+          <h3 className="blogHeader">Comments</h3>
           {comments.map((comment) => (
-              <div className="comment" key={comment.id}>
-                <div className="commentAuthor">
-                  {comment.user.username}
-                </div>
-                <div className="commentBody">
-                  {comment.body}
-                </div>
+            <div className="blogComment" key={comment.id}>
+              <div className="commentMeta">
+                {comment.user.username}{" "}
+                <span className="blogMeta">
+                  -{" "}
+                  {new Date(comment.createdAt)
+                    .toISOString()
+                    .slice(0, 16)
+                    .replace("T", " ")}
+                </span>
               </div>
-            ))}
+              <div className="commentBody">{comment.body}</div>
+            </div>
+          ))}
         </div>
       </div>
     </>

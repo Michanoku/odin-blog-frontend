@@ -19,7 +19,7 @@ export function Login({ setUser }) {
 
   return (
     <div className="userView">
-      <h2>Login</h2>
+      <h2 className="userHeader">Login</h2>
       <form onSubmit={loginUser}>
         <label for="email">Email</label>
         <input
@@ -53,7 +53,7 @@ export function Register({ setUser }) {
 
   return (
     <div className="userView">
-      <h2>Register</h2>
+      <h2 className="userHeader">Register</h2>
       <form onSubmit={registerUser}>
         <label for="email">Email</label>
         <input
@@ -100,7 +100,7 @@ export function Profile({ user, setUser }) {
 
     return (
     <div className="userView">
-      <h2>Profile</h2>
+      <h2 className="userHeader">Profile</h2>
       <form onSubmit={updateUser}>
         <label for="email">Email</label>
         <input

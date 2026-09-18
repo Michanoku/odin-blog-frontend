@@ -11,11 +11,11 @@ aside {
 }
 
 .userInfo {
-    margin: 0.5rem;
-    display: flex;
-    gap: 0.25rem;
-    justify-content: start;
-    align-items: center;
+  margin: 0.5rem;
+  display: flex;
+  gap: 0.25rem;
+  justify-content: start;
+  align-items: center;
 }
 
 .blogPost {
@@ -23,17 +23,82 @@ aside {
   flex-direction: column;
   justify-content: start;
   width: 100%;
-  padding: 1rem;
 }
 
 .backLink {
-  align-self: start;
+  display: inline-block;
+  font-size: 1.125rem;
+  text-decoration: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-text);
 }
 
-.blogContent {
-  font-size: 1rem;
+.backLink:hover {
+  color: var(--color-muted);
+}
+
+.blogContent,
+.blogComments {
   min-width: 66ch;
   max-width: 66ch;
   align-self: center;
   text-align: start;
+  margin-top: 1rem;
+  margin-inline: 0.25rem;
+}
+
+.listTitle {
+  margin-block: 1rem;
+  text-align: center;
+}
+
+.blogHeader {
+  margin-bottom: 1rem;
+  text-align: start;
+}
+
+.blogMeta {
+  font-size: 1rem;
+  color: var(--color-muted);
+}
+
+.blogCategories {
+  display: flex;
+  justify-content: start;
+}
+
+.blogCategory {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.blogBody {
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+}
+
+.blogComment,
+.blogLink {
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.blogComment:last-child,
+.blogLink:last-child {
+  border-bottom: none;
+}
+
+.postLink {
+  color: var(--color-text);
+  font-size: 0.875rem;
+}
+
+.postLink:hover {
+  color: var(--color-muted);
 }
