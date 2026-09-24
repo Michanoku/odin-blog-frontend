@@ -8,7 +8,7 @@
     text-align: center;
 }
 
-form {
+.userForm {
   width: min(100%, 30rem);
   margin-inline: auto;
   display: flex;

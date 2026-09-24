@@ -2,7 +2,12 @@ import { User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { getPosts, getSinglePost, getAllComments } from "../api/content.js";
+import {
+  getPosts,
+  getSinglePost,
+  getAllComments,
+  postComment,
+} from "../api/content.js";
 import "../styles/blog.css";
 
 // A single blog post link
@@ -63,9 +68,9 @@ function BlogList({ setCategories, category }) {
 
   const back = category ? (
     <div className="blogContent">
-    <Link className="navLink" to="/">
-      <ArrowLeft />
-    </Link>
+      <Link className="navLink" to="/">
+        <ArrowLeft />
+      </Link>
     </div>
   ) : null;
 
@@ -80,7 +85,48 @@ function BlogList({ setCategories, category }) {
   );
 }
 
-function BlogPost({ postId }) {
+function BlogComments({ comments, setComments, postId, user }) {
+  async function submitComment(event) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const newComment = await postComment(postId, formData.get("commentBody"));
+    setComments((comments) => [...comments, newComment]);
+  }
+
+  const form = user ? (
+    <form className="commentForm" onSubmit={submitComment}>
+      <h3 className="blogHeader">Join the discussion</h3>
+      <textarea name="commentBody" placeholder="" maxlength="1000" rows="6" />
+      <button type="submit">Post comment</button>
+    </form>
+  ) : null;
+
+  return (
+    <>
+      <div className="blogComments">
+        <h3 className="blogHeader">Comments</h3>
+        {comments.map((comment) => (
+          <div className="blogComment" key={comment.id}>
+            <div className="commentMeta">
+              {comment.user.username}{" "}
+              <span className="blogMeta">
+                -{" "}
+                {new Date(comment.createdAt)
+                  .toISOString()
+                  .slice(0, 16)
+                  .replace("T", " ")}
+              </span>
+            </div>
+            <div className="commentBody">{comment.body}</div>
+          </div>
+        ))}
+      </div>
+      {form}
+    </>
+  );
+}
+
+function BlogPost({ postId, user }) {
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
 
@@ -118,25 +164,12 @@ function BlogPost({ postId }) {
           <div className="blogBody">{post.body}</div>
         </div>
         <hr />
-
-        <div className="blogComments">
-          <h3 className="blogHeader">Comments</h3>
-          {comments.map((comment) => (
-            <div className="blogComment" key={comment.id}>
-              <div className="commentMeta">
-                {comment.user.username}{" "}
-                <span className="blogMeta">
-                  -{" "}
-                  {new Date(comment.createdAt)
-                    .toISOString()
-                    .slice(0, 16)
-                    .replace("T", " ")}
-                </span>
-              </div>
-              <div className="commentBody">{comment.body}</div>
-            </div>
-          ))}
-        </div>
+        <BlogComments
+          comments={comments}
+          setComments={setComments}
+          postId={postId}
+          user={user}
+        />
       </div>
     </>
   );
@@ -147,7 +180,7 @@ export default function Blog({ user }) {
   const { postId } = useParams();
   const { category } = useParams();
   const content = postId ? (
-    <BlogPost postId={postId} />
+    <BlogPost postId={postId} user={user} />
   ) : category ? (
     <BlogList setCategories={setCategories} category={category} />
   ) : (

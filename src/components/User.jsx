@@ -1,36 +1,49 @@
-import { loginAPI, registerAPI, updateAPI } from "../api/api.js";
+import { loginAPI, registerAPI, updateAPI } from "../api/auth.js";
 import "../styles/user.css";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 
 export function Login({ setUser }) {
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   async function loginUser(event) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const { token, user } = await loginAPI(formData);
+    setError(null);
 
-    // TODO: ADD ERROR ETC
-    localStorage.setItem("token", token);
-    setUser(user);
-    navigate("/");
+    try {
+      const formData = new FormData(event.currentTarget);
+      const { token, user } = await loginAPI(formData);
+
+      localStorage.setItem("token", token);
+      setUser(user);
+      navigate("/");
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   return (
     <div className="userView">
       <h2 className="userHeader">Login</h2>
-      <form onSubmit={loginUser}>
-        <label for="email">Email</label>
+      {error && <div className="formError">{error}</div>}
+      <form className="userForm" onSubmit={loginUser}>
+        <label htmlFor="email">Email</label>
         <input
           id="email"
           name="email"
           type="email"
           placeholder="email@example.com"
-          maxlength="255"
+          maxLength="255"
         />
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password" minlength="12" maxlength="72" />
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          minLength="12"
+          maxLength="72"
+        />
         <button type="submit">Log in</button>
       </form>
     </div>
@@ -39,42 +52,60 @@ export function Login({ setUser }) {
 
 export function Register({ setUser }) {
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   async function registerUser(event) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const { token, user } = await registerAPI(formData);
+    setError(null);
+    try {
+      const formData = new FormData(event.currentTarget);
+      const { token, user } = await registerAPI(formData);
 
-    // TODO: ADD ERROR ETC
-    localStorage.setItem("token", token);
-    setUser(user);
-    navigate("/");
+      localStorage.setItem("token", token);
+      setUser(user);
+      navigate("/");
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   return (
     <div className="userView">
       <h2 className="userHeader">Register</h2>
+      {error && <div className="formError">{error}</div>}
       <form onSubmit={registerUser}>
-        <label for="email">Email</label>
+        <label htmlFor="email">Email</label>
         <input
           id="email"
           name="email"
           type="email"
           placeholder="email@example.com"
-          maxlength="255"
+          maxLength="255"
         />
-        <label for="username">Username (3 - 32 characters)</label>
+        <label htmlFor="username">Username (3 - 32 characters)</label>
         <input
           id="username"
           name="username"
           type="text"
-          minlength="3"
-          maxlength="32"
+          minLength="3"
+          maxLength="32"
         />
-        <label for="password">Password (12 - 72 characters)</label>
-        <input id="password" name="password" type="password" minlength="12" maxlength="72"/>
-        <label for="confirmation">Confirmation</label>
-        <input id="confirmation" name="confirmation" type="password" minlength="12" maxlength="72" />
+        <label htmlFor="password">Password (12 - 72 characters)</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          minLength="12"
+          maxLength="72"
+        />
+        <label htmlFor="confirmation">Confirmation</label>
+        <input
+          id="confirmation"
+          name="confirmation"
+          type="password"
+          minLength="12"
+          maxLength="72"
+        />
         <button type="submit">Register</button>
       </form>
     </div>
@@ -83,48 +114,72 @@ export function Register({ setUser }) {
 
 export function Profile({ user, setUser }) {
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   if (!user) {
     return navigate("/login");
   }
   async function updateUser(event) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const { token, user } = await updateAPI(formData);
+    setError(null);
 
-    // TODO: ADD ERROR ETC
-    localStorage.setItem("token", token);
-    setUser(user);
-    navigate("/");
+    try {
+      const formData = new FormData(event.currentTarget);
+      const { user } = await updateAPI(formData);
+
+      setUser(user);
+      navigate("/");
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
-    return (
+  return (
     <div className="userView">
       <h2 className="userHeader">Profile</h2>
+      {error && <div className="formError">{error}</div>}
       <form onSubmit={updateUser}>
-        <label for="email">Email</label>
+        <label htmlFor="email">Email</label>
         <input
           id="email"
           name="email"
           type="email"
           placeholder={user.email}
-          maxlength="255"
+          maxLength="255"
         />
-        <label for="username">Username (3 - 32 characters)</label>
+        <label htmlFor="username">Username (3 - 32 characters)</label>
         <input
           id="username"
           name="username"
           type="text"
-          minlength="3"
-          maxlength="32"
+          minLength="3"
+          maxLength="32"
           placeholder={user.username}
         />
-        <label for="password">New Password (12 - 72 characters)</label>
-        <input id="password" name="password" type="password" minlength="12" maxlength="72" />
-        <label for="confirmation">Confirmation</label>
-        <input id="confirmation" name="confirmation" type="password" minlength="12" maxlength="72" />
-        <label for="currentPassword">Current Password (required)</label>
-        <input id="currentPassword" name="currentPassword" type="password" minlength="12" maxlength="72" />
+        <label htmlFor="password">New Password (12 - 72 characters)</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          minLength="12"
+          maxLength="72"
+        />
+        <label htmlFor="confirmation">Confirmation</label>
+        <input
+          id="confirmation"
+          name="confirmation"
+          type="password"
+          minLength="12"
+          maxLength="72"
+        />
+        <label htmlFor="currentPassword">Current Password (required)</label>
+        <input
+          id="currentPassword"
+          name="currentPassword"
+          type="password"
+          minLength="12"
+          maxLength="72"
+        />
         <button type="submit">Update</button>
       </form>
     </div>

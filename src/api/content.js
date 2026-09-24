@@ -61,3 +61,28 @@ export async function getAllComments(postId) {
     console.error("Fetch error:", error);
   }
 }
+
+export async function postComment(postId, commentBody) {
+  const url = `http://localhost:3000/posts/${postId}/comments/`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ commentBody }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    console.log("Result:", result);
+
+    return result;
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
+}
