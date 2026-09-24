@@ -42,6 +42,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Blog user={user} />} />
+          <Route path="/category/:category" element={<Blog user={user} />} />
           <Route path="/posts/:postId" element={<Blog user={user} />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/register" element={<Register setUser={setUser} />} />

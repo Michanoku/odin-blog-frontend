@@ -59,3 +59,10 @@ nav {
   transform: translateY(2.5rem);
   pointer-events: auto;
 }
+
+.asideCategories {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}

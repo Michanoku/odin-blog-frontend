@@ -43,12 +43,15 @@ function BlogLink({ post }) {
 }
 
 // The list of blog articles
-function BlogList({ setCategories }) {
+function BlogList({ setCategories, category }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     getPosts().then((posts) => {
-      setPosts(posts);
+      const newPosts = category
+        ? posts.filter((post) => post.category === category)
+        : posts;
+      setPosts(newPosts);
 
       const uniqueCategories = [
         ...new Set(posts.map((post) => post.category).filter(Boolean)),
@@ -56,11 +59,20 @@ function BlogList({ setCategories }) {
 
       setCategories(uniqueCategories);
     });
-  }, []);
+  }, [category]);
+
+  const back = category ? (
+    <div className="blogContent">
+    <Link className="navLink" to="/">
+      <ArrowLeft />
+    </Link>
+    </div>
+  ) : null;
 
   return (
     <div className="blogPost">
-      <h2 className="listTitle">Recent posts</h2>
+      {back}
+      <h2 className="listTitle">{category ?? "Recent"} posts</h2>
       {posts.map((post) => (
         <BlogLink key={post.id} post={post} />
       ))}
@@ -89,7 +101,7 @@ function BlogPost({ postId }) {
     <>
       <div className="blogPost">
         <div className="blogContent">
-          <Link className="backLink" to="/">
+          <Link className="navLink back" to="/">
             <ArrowLeft />
           </Link>
           <h2 className="blogHeader">{post.title}</h2>
@@ -133,21 +145,40 @@ function BlogPost({ postId }) {
 export default function Blog({ user }) {
   const [categories, setCategories] = useState([]);
   const { postId } = useParams();
-  const content = postId ? <BlogPost postId={postId} /> : <BlogList setCategories={setCategories} />;
+  const { category } = useParams();
+  const content = postId ? (
+    <BlogPost postId={postId} />
+  ) : category ? (
+    <BlogList setCategories={setCategories} category={category} />
+  ) : (
+    <BlogList setCategories={setCategories} category={null} />
+  );
 
   return (
     <>
       <section>{content}</section>
       <aside>
         {user && (
-          <div className="userInfo">
-            <User />
-            <span>{user.username}</span>
-          </div>
+          <>
+            <div className="asideTitle">User</div>
+            <div className="userInfo">
+              <User />
+              <span>{user.username}</span>
+            </div>
+          </>
         )}
-      {categories.map((category) => (
-        <div key={category}>{category}</div>
-      ))}
+        <div className="asideTitle">Categories</div>
+        <div className="asideCategories">
+          {categories.map((category) => (
+            <Link
+              className="navLink"
+              to={`/category/${category}`}
+              key={category}
+            >
+              {category}
+            </Link>
+          ))}
+        </div>
       </aside>
     </>
   );
