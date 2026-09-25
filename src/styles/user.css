@@ -3,7 +3,7 @@
   color: var(--color-text);
 }
 
-.userHeader {
+.userHeader, .formError {
     margin: 1rem;
     text-align: center;
 }

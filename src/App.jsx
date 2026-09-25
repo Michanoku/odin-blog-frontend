@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Blog from "./components/Blog.jsx";
 import { Login, Register, Profile } from "./components/User.jsx";
+import { getCurrentUser } from "./api/auth.js";
 
 // ASSET IMPORT EXAMPLE: import ASSET from "./assets/ASSET.FILEENDING";
 import "./styles/index.css";
@@ -11,8 +12,29 @@ function App() {
   // Set the theme for the site
   const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
 
-  // Set the view for the site
+  // Set the user to null first
   const [user, setUser] = useState(null);
+  // Set the state to make sure we know if we are already checking for auth
+  const [authChecking, setAuthChecking] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setAuthChecking(false);
+      return;
+    }
+
+    getCurrentUser()
+      .then((user) => setUser(user))
+      .catch((error) => {
+        console.error("Failed to restore user:", error);
+        setUser(null);
+      })
+      .finally(() => {
+        setAuthChecking(false);
+      });
+  }, []);
 
   // The theme toggle function will flip on the document so set it up here
   const themeToggle = (theme) => {
@@ -23,7 +45,11 @@ function App() {
     setTheme(newTheme);
   };
 
-  function ProtectedRoute({ user, children }) {
+  function ProtectedRoute({ user, authChecking, children }) {
+    if (authChecking) {
+      return <div>Loading...</div>;
+    }
+
     if (!user) {
       return <Navigate to="/login" replace />;
     }
@@ -49,7 +75,7 @@ function App() {
           <Route
             path="/profile"
             element={
-              <ProtectedRoute user={user}>
+              <ProtectedRoute user={user} authChecking={authChecking}>
                 <Profile user={user} setUser={setUser} />
               </ProtectedRoute>
             }

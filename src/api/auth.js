@@ -1,4 +1,4 @@
-import { backend } from "./urls.js";
+import urls from "./urls.js";
 
 // The login event sending the data to the api.
 export async function loginAPI(formData) {
@@ -7,7 +7,7 @@ export async function loginAPI(formData) {
 
   console.log(email, password);
 
-  const url = `${backend}login/`;
+  const url = `${urls.backend}user/login`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -15,12 +15,12 @@ export async function loginAPI(formData) {
     },
     body: JSON.stringify({ email, password }),
   });
-
+  console.log(response);
   const result = await response.json();
-  console.log(result);
+  console.log(result);  
 
   if (!response.ok) {
-    throw new Error(`Response status: ${response.status}`);
+    throw new Error(`Error ${response.status}: ${result.message}`);
   }
 
   return result;
@@ -35,7 +35,7 @@ export async function registerAPI(formData) {
 
   console.log(email, username, password);
 
-  const url = `${backend}register/`;
+  const url = `${urls.backend}user/register`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -48,7 +48,7 @@ export async function registerAPI(formData) {
   console.log(result);
 
   if (!response.ok) {
-    throw new Error(`Response status: ${response.status}`);
+    throw new Error(`Error ${response.status}: ${result.message}`);
   }
 
   return result;
@@ -63,7 +63,7 @@ export async function updateAPI(formData) {
   const currentPassword = formData.get("currentPassword");
 
   console.log(email, username, password);
-  const url = `${backend}profile/`;
+  const url = `${urls.backend}user/profile`;
   const response = await fetch(url, {
     method: "PUT",
     headers: {
@@ -83,7 +83,26 @@ export async function updateAPI(formData) {
   console.log(result);
 
   if (!response.ok) {
-    throw new Error(`Response status: ${response.status}`);
+    throw new Error(`Error ${response.status}: ${result.message}`);
+  }
+
+  return result;
+}
+
+export async function getCurrentUser() {
+  const url = `${urls.backend}user/me`;
+
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+
+  const result = await response.json();
+  console.log(result);
+
+  if (!response.ok) {
+    throw new Error(`Error ${response.status}: ${result.message}`);
   }
 
   return result;

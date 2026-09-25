@@ -90,13 +90,14 @@ function BlogComments({ comments, setComments, postId, user }) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const newComment = await postComment(postId, formData.get("commentBody"));
-    setComments((comments) => [...comments, newComment]);
+    setComments((comments) => [newComment, ...comments]);
+    event.currentTarget.reset();
   }
 
   const form = user ? (
     <form className="commentForm" onSubmit={submitComment}>
       <h3 className="blogHeader">Join the discussion</h3>
-      <textarea name="commentBody" placeholder="" maxlength="1000" rows="6" />
+      <textarea name="commentBody" placeholder="" maxLength={1000} rows={6} />
       <button type="submit">Post comment</button>
     </form>
   ) : null;

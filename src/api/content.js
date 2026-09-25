@@ -1,5 +1,5 @@
 export async function getPosts() {
-  const url = "http://localhost:3000/posts/";
+  const url = "http://localhost:3000/posts";
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -69,6 +69,7 @@ export async function postComment(postId, commentBody) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify({ commentBody }),
     });

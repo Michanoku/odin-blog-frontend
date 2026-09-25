@@ -13,6 +13,7 @@ export function Login({ setUser }) {
 
     try {
       const formData = new FormData(event.currentTarget);
+      console.log(formData)
       const { token, user } = await loginAPI(formData);
 
       localStorage.setItem("token", token);
@@ -34,15 +35,15 @@ export function Login({ setUser }) {
           name="email"
           type="email"
           placeholder="email@example.com"
-          maxLength="255"
+          maxLength={255}
         />
         <label htmlFor="password">Password</label>
         <input
           id="password"
           name="password"
           type="password"
-          minLength="12"
-          maxLength="72"
+          minLength={12}
+          maxLength={72}
         />
         <button type="submit">Log in</button>
       </form>
@@ -62,6 +63,10 @@ export function Register({ setUser }) {
       const { token, user } = await registerAPI(formData);
 
       localStorage.setItem("token", token);
+      console.log("REGISTER TOKEN:", token);
+      console.log("STORED TOKEN:", localStorage.getItem("token"));
+      console.log("REGISTER USER:", user);
+
       setUser(user);
       navigate("/");
     } catch (error) {
@@ -73,38 +78,38 @@ export function Register({ setUser }) {
     <div className="userView">
       <h2 className="userHeader">Register</h2>
       {error && <div className="formError">{error}</div>}
-      <form onSubmit={registerUser}>
+      <form className="userForm" onSubmit={registerUser}>
         <label htmlFor="email">Email</label>
         <input
           id="email"
           name="email"
           type="email"
           placeholder="email@example.com"
-          maxLength="255"
+          maxLength={255}
         />
         <label htmlFor="username">Username (3 - 32 characters)</label>
         <input
           id="username"
           name="username"
           type="text"
-          minLength="3"
-          maxLength="32"
+          minLength={3}
+          maxLength={32}
         />
         <label htmlFor="password">Password (12 - 72 characters)</label>
         <input
           id="password"
           name="password"
           type="password"
-          minLength="12"
-          maxLength="72"
+          minLength={12}
+          maxLength={72}
         />
         <label htmlFor="confirmation">Confirmation</label>
         <input
           id="confirmation"
           name="confirmation"
           type="password"
-          minLength="12"
-          maxLength="72"
+          minLength={12}
+          maxLength={72}
         />
         <button type="submit">Register</button>
       </form>
@@ -138,22 +143,22 @@ export function Profile({ user, setUser }) {
     <div className="userView">
       <h2 className="userHeader">Profile</h2>
       {error && <div className="formError">{error}</div>}
-      <form onSubmit={updateUser}>
+      <form className="userForm" onSubmit={updateUser}>
         <label htmlFor="email">Email</label>
         <input
           id="email"
           name="email"
           type="email"
           placeholder={user.email}
-          maxLength="255"
+          maxLength={255}
         />
         <label htmlFor="username">Username (3 - 32 characters)</label>
         <input
           id="username"
           name="username"
           type="text"
-          minLength="3"
-          maxLength="32"
+          minLength={3}
+          maxLength={32}
           placeholder={user.username}
         />
         <label htmlFor="password">New Password (12 - 72 characters)</label>
@@ -161,24 +166,24 @@ export function Profile({ user, setUser }) {
           id="password"
           name="password"
           type="password"
-          minLength="12"
-          maxLength="72"
+          minLength={12}
+          maxLength={72}
         />
         <label htmlFor="confirmation">Confirmation</label>
         <input
           id="confirmation"
           name="confirmation"
           type="password"
-          minLength="12"
-          maxLength="72"
+          minLength={12}
+          maxLength={72}
         />
         <label htmlFor="currentPassword">Current Password (required)</label>
         <input
           id="currentPassword"
           name="currentPassword"
           type="password"
-          minLength="12"
-          maxLength="72"
+          minLength={12}
+          maxLength={72}
         />
         <button type="submit">Update</button>
       </form>
