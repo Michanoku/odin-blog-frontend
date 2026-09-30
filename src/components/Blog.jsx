@@ -91,10 +91,12 @@ function BlogList({ setCategories, category }) {
   );
 }
 
-function Comment({ comment, user }) {
-  const buttons = user.id === comment.user.id ? (
+function Comment({ comment, user, updateComment }) {
+  const [edit, setEdit] = useState(false);
+  const isOwner = user?.id === comment.user.id;
+  const buttons = isOwner ? (
     <div className="commentButtons">
-      <button className="icon">
+      <button className="icon" onClick={() => setEdit(true)}>
         <SquarePen />
       </button>
       <button className="icon">
@@ -102,6 +104,30 @@ function Comment({ comment, user }) {
       </button>
     </div>
   ) : null;
+
+  const body = edit ? (
+    <form className="commentForm" onSubmit={updateComment}>
+      <input type="hidden" name="commentId" value={comment.id} />
+      <textarea name="commentBody" maxLength={1000} rows={6}>
+        {comment.body}
+      </textarea>
+      <div className="commentButtons">
+        <button
+          type="button"
+          className="cancelButton"
+          onClick={() => setEdit(false)}
+        >
+          Cancel
+        </button>
+        <button type="submit">Update</button>
+      </div>
+    </form>
+  ) : (
+    <>
+      <div className="commentBody">{comment.body}</div>
+      {buttons}
+    </>
+  );
 
   return (
     <div className="blogComment" key={comment.id}>
@@ -115,8 +141,7 @@ function Comment({ comment, user }) {
             .replace("T", " ")}
         </span>
       </div>
-      <div className="commentBody">{comment.body}</div>
-      {buttons}
+      {body}
     </div>
   );
 }
@@ -127,6 +152,21 @@ function BlogComments({ comments, setComments, postId, user }) {
     const formData = new FormData(event.currentTarget);
     const newComment = await postComment(postId, formData.get("commentBody"));
     setComments((comments) => [newComment, ...comments]);
+    event.currentTarget.reset();
+  }
+
+  async function updateComment(event) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const updatedComment = await updateComment(
+      formData.get("commentId"),
+      formData.get("commentBody"),
+    );
+    setComments((comments) =>
+      comments.map((comment) =>
+        comment.id === updatedComment.id ? updatedComment : comment,
+      ),
+    );
     event.currentTarget.reset();
   }
 
@@ -143,7 +183,7 @@ function BlogComments({ comments, setComments, postId, user }) {
       <div className="blogComments">
         <h3 className="blogHeader">Comments</h3>
         {comments.map((comment) => (
-          <Comment comment={comment} user={user} key={comment.id}/>
+          <Comment comment={comment} user={user} key={comment.id} />
         ))}
       </div>
       {form}
