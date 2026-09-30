@@ -48,14 +48,13 @@ function BlogLink({ post }) {
 
 // The list of blog articles
 function BlogList({ setCategories, category }) {
+  const [allPosts, setAllPosts] = useState([]);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     getPosts().then((posts) => {
-      const newPosts = category
-        ? posts.filter((post) => post.category === category)
-        : posts;
-      setPosts(newPosts);
+      setAllPosts(posts);
+      setPosts(posts);
 
       const uniqueCategories = [
         ...new Set(posts.map((post) => post.category).filter(Boolean)),
@@ -63,7 +62,15 @@ function BlogList({ setCategories, category }) {
 
       setCategories(uniqueCategories);
     });
-  }, [category]);
+  }, []);
+
+  useEffect(() => {
+    const newPosts = category
+      ? allPosts.filter((post) => post.category === category)
+      : allPosts;
+
+    setPosts(newPosts);
+  }, [category, allPosts]);
 
   const back = category ? (
     <div className="blogContent">
@@ -144,9 +151,19 @@ function BlogComments({ comments, setComments, postId, user }) {
   );
 }
 
-function BlogPost({ postId, user }) {
+function BlogPost({ postId, user, setCategories }) {
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    getPosts().then((posts) => {
+      const uniqueCategories = [
+        ...new Set(posts.map((post) => post.category).filter(Boolean)),
+      ];
+
+      setCategories(uniqueCategories);
+    });
+  }, []);
 
   useEffect(() => {
     Promise.all([getSinglePost(postId), getAllComments(postId)]).then(
@@ -198,7 +215,7 @@ export default function Blog({ user }) {
   const { postId } = useParams();
   const { category } = useParams();
   const content = postId ? (
-    <BlogPost postId={postId} user={user} />
+    <BlogPost postId={postId} user={user} setCategories={setCategories} />
   ) : category ? (
     <BlogList setCategories={setCategories} category={category} />
   ) : (
