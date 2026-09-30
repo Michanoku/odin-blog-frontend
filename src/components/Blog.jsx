@@ -1,7 +1,6 @@
-import { User } from "lucide-react";
+import { ArrowLeft, User, SquarePen, Trash } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
 import {
   getPosts,
   getSinglePost,
@@ -85,6 +84,36 @@ function BlogList({ setCategories, category }) {
   );
 }
 
+function Comment({ comment, user }) {
+  const buttons = user.id === comment.user.id ? (
+    <div className="commentButtons">
+      <button className="icon">
+        <SquarePen />
+      </button>
+      <button className="icon">
+        <Trash />
+      </button>
+    </div>
+  ) : null;
+
+  return (
+    <div className="blogComment" key={comment.id}>
+      <div className="commentMeta">
+        {comment.user.username}{" "}
+        <span className="blogMeta">
+          -{" "}
+          {new Date(comment.createdAt)
+            .toISOString()
+            .slice(0, 16)
+            .replace("T", " ")}
+        </span>
+      </div>
+      <div className="commentBody">{comment.body}</div>
+      {buttons}
+    </div>
+  );
+}
+
 function BlogComments({ comments, setComments, postId, user }) {
   async function submitComment(event) {
     event.preventDefault();
@@ -107,19 +136,7 @@ function BlogComments({ comments, setComments, postId, user }) {
       <div className="blogComments">
         <h3 className="blogHeader">Comments</h3>
         {comments.map((comment) => (
-          <div className="blogComment" key={comment.id}>
-            <div className="commentMeta">
-              {comment.user.username}{" "}
-              <span className="blogMeta">
-                -{" "}
-                {new Date(comment.createdAt)
-                  .toISOString()
-                  .slice(0, 16)
-                  .replace("T", " ")}
-              </span>
-            </div>
-            <div className="commentBody">{comment.body}</div>
-          </div>
+          <Comment comment={comment} user={user} key={comment.id}/>
         ))}
       </div>
       {form}

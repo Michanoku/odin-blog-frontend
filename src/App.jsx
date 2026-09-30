@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Blog from "./components/Blog.jsx";
 import { Login, Register, Profile } from "./components/User.jsx";
@@ -9,6 +9,8 @@ import { getCurrentUser } from "./api/auth.js";
 import "./styles/index.css";
 
 function App() {
+  // Setup navigate
+  const navigate = useNavigate();
   // Set the theme for the site
   const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
 
@@ -28,13 +30,19 @@ function App() {
     getCurrentUser()
       .then((user) => setUser(user))
       .catch((error) => {
+        if (error.status === 401) {
+          localStorage.removeItem("token");
+          setUser(null);
+          navigate("/login");
+          return;
+        }
+
         console.error("Failed to restore user:", error);
-        setUser(null);
       })
       .finally(() => {
         setAuthChecking(false);
       });
-  }, []);
+  }, [navigate]);
 
   // The theme toggle function will flip on the document so set it up here
   const themeToggle = (theme) => {

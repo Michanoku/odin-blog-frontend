@@ -46,3 +46,10 @@ button[type="submit"]:hover {
   background-color: var(--color-accent-hover);
   cursor: pointer;
 }
+
+.commentButtons {
+  display: flex;
+  justify-content: end;
+  gap: 0.5rem;
+  align-items: center;
+}

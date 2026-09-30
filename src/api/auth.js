@@ -102,7 +102,9 @@ export async function getCurrentUser() {
   console.log(result);
 
   if (!response.ok) {
-    throw new Error(`Error ${response.status}: ${result.message}`);
+    const error = new Error(result.message || "Request failed.");
+    error.status = response.status;
+    throw error;
   }
 
   return result;
