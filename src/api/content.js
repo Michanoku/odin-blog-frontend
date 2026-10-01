@@ -87,3 +87,49 @@ export async function postComment(postId, commentBody) {
     console.error("Fetch error:", error);
   }
 }
+
+export async function updateComment(postId, commentId, commentBody) {
+  const url = `http://localhost:3000/posts/${postId}/comments/${commentId}`;
+  try {
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({ commentBody }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    console.log("Result:", result);
+
+    return result;
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
+}
+
+export async function deleteComment(postId, commentId) {
+  const url = `http://localhost:3000/posts/${postId}/comments/${commentId}`;
+  try {
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    return;
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
+}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Header from "./components/Header.jsx";
-import Blog from "./components/Blog.jsx";
+import Content from "./components/content/Content.jsx";
 import { Login, Register, Profile } from "./components/User.jsx";
 import { getCurrentUser } from "./api/auth.js";
 
@@ -75,9 +75,9 @@ function App() {
       />
       <main>
         <Routes>
-          <Route path="/" element={<Blog user={user} />} />
-          <Route path="/category/:category" element={<Blog user={user} />} />
-          <Route path="/posts/:postId" element={<Blog user={user} />} />
+          <Route path="/" element={<Content user={user} />} />
+          <Route path="/category/:category" element={<Content user={user} />} />
+          <Route path="/posts/:postId" element={<Content user={user} />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/register" element={<Register setUser={setUser} />} />
           <Route

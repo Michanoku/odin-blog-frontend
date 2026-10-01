@@ -1,0 +1,13 @@
+.blogPostLink {
+  color: var(--color-text);
+  font-size: 0.875rem;
+}
+
+.blogPostLink:hover {
+  color: var(--color-muted);
+}
+
+.blogPostListTitle {
+  margin-block: 1rem;
+  text-align: center;
+}
