@@ -82,7 +82,7 @@ export function CommentSection({ comments, setComments, postId, user }) {
       setComments((comments) => [newComment, ...comments]);
       form.reset();
     } catch (error) {
-      console.log(error);
+      alert(error.message);
     }
   }
 
@@ -104,7 +104,7 @@ export function CommentSection({ comments, setComments, postId, user }) {
 
       form.reset();
     } catch (error) {
-      console.log(error);
+      alert(error.message);
     }
   }
 
@@ -119,7 +119,7 @@ export function CommentSection({ comments, setComments, postId, user }) {
           comments.filter((comment) => comment.id !== commentId),
         );
       } catch (error) {
-        console.log(error);
+        alert(error.message);
       }
     }
   }

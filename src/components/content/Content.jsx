@@ -10,8 +10,13 @@ export default function Content({ user }) {
 
   return (
     <>
-      <ContentSection user={user} postId={postId} category={category} setCategories={setCategories} />
-      <ContentAside user={ user } categories={ categories }/>
+      <ContentSection
+        user={user}
+        postId={postId}
+        category={category}
+        setCategories={setCategories}
+      />
+      <ContentAside user={user} categories={categories} />
     </>
   );
 }

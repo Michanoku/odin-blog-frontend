@@ -1,9 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  getPosts,
-} from "../../../api/content.js";
+import { getPosts } from "../../../api/content.js";
 import "../../../styles/content/blog/blogPostList.css";
 
 // A single blog post link

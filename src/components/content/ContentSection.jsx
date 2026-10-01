@@ -9,7 +9,5 @@ export function ContentSection({ user, postId, category, setCategories }) {
     <BlogPostList setCategories={setCategories} category={category ?? null} />
   );
 
-  return (
-    <section>{content}</section>
-  );
+  return <section>{content}</section>;
 }

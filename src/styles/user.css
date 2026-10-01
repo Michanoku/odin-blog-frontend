@@ -3,9 +3,10 @@
   color: var(--color-text);
 }
 
-.userHeader, .formError {
-    margin: 1rem;
-    text-align: center;
+.userHeader,
+.formError {
+  margin: 1rem;
+  text-align: center;
 }
 
 .userForm {

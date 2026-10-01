@@ -1,135 +1,59 @@
+import { contactAPI } from "./api.js";
+
+// Get all posts from the backend
 export async function getPosts() {
-  const url = "http://localhost:3000/posts";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    console.log(result);
-    return result;
-  } catch (error) {
-    console.error(error.message);
-  }
+  const path = "posts";
+  return contactAPI(path);
 }
 
+// Get only a single post from the backend
 export async function getSinglePost(postId) {
-  const url = `http://localhost:3000/posts/${postId}`;
-
-  console.log("Fetching:", url);
-
-  try {
-    const response = await fetch(url);
-
-    console.log("Response received:", response.status);
-
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    console.log("Result:", result);
-
-    return result;
-  } catch (error) {
-    console.error("Fetch error:", error);
-  }
+  const path = `posts/${postId}`;
+  return contactAPI(path);
 }
 
+// Get all comments for a post using the postId
 export async function getAllComments(postId) {
-  const url = `http://localhost:3000/posts/${postId}/comments/`;
-
-  console.log("Fetching:", url);
-
-  try {
-    const response = await fetch(url);
-
-    console.log("Response received:", response.status);
-
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    console.log("Result:", result);
-
-    return result;
-  } catch (error) {
-    console.error("Fetch error:", error);
-  }
+  const path = `posts/${postId}/comments/`;
+  return contactAPI(path);
 }
 
+// Post a new comment to a post
 export async function postComment(postId, commentBody) {
-  const url = `http://localhost:3000/posts/${postId}/comments/`;
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({ commentBody }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    console.log("Result:", result);
-
-    return result;
-  } catch (error) {
-    console.error("Fetch error:", error);
-  }
+  const path = `posts/${postId}/comments/`;
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify({ commentBody }),
+  };
+  return contactAPI(path, options);
 }
 
+// Update an existing comment on a post
 export async function updateComment(postId, commentId, commentBody) {
-  const url = `http://localhost:3000/posts/${postId}/comments/${commentId}`;
-  try {
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({ commentBody }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    console.log("Result:", result);
-
-    return result;
-  } catch (error) {
-    console.error("Fetch error:", error);
-  }
+  const path = `posts/${postId}/comments/${commentId}`;
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify({ commentBody }),
+  };
+  return contactAPI(path, options);
 }
 
+// Delete an existing comment on a post
 export async function deleteComment(postId, commentId) {
-  const url = `http://localhost:3000/posts/${postId}/comments/${commentId}`;
-  try {
-    const response = await fetch(url, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-    return;
-  } catch (error) {
-    console.error("Fetch error:", error);
-  }
+  const path = `posts/${postId}/comments/${commentId}`;
+  const options = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+  return contactAPI(path, options);
 }

@@ -1,29 +1,20 @@
-import urls from "./urls.js";
+import { contactAPI } from "./api.js";
 
 // The login event sending the data to the api.
 export async function loginAPI(formData) {
   const email = formData.get("email");
   const password = formData.get("password");
 
-  console.log(email, password);
-
-  const url = `${urls.backend}user/login`;
-  const response = await fetch(url, {
+  const path = "user/login";
+  const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  });
-  console.log(response);
-  const result = await response.json();
-  console.log(result);  
+  };
 
-  if (!response.ok) {
-    throw new Error(`Error ${response.status}: ${result.message}`);
-  }
-
-  return result;
+  return contactAPI(path, options);
 }
 
 // The register event sending the data to the api.
@@ -33,25 +24,16 @@ export async function registerAPI(formData) {
   const password = formData.get("password");
   const confirmation = formData.get("confirmation");
 
-  console.log(email, username, password);
-
-  const url = `${urls.backend}user/register`;
-  const response = await fetch(url, {
+  const path = "user/register";
+  const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, username, password, confirmation }),
-  });
+  };
 
-  const result = await response.json();
-  console.log(result);
-
-  if (!response.ok) {
-    throw new Error(`Error ${response.status}: ${result.message}`);
-  }
-
-  return result;
+  return contactAPI(path, options);
 }
 
 // The update event sending the data to the api.
@@ -62,9 +44,8 @@ export async function updateAPI(formData) {
   const confirmation = formData.get("confirmation");
   const currentPassword = formData.get("currentPassword");
 
-  console.log(email, username, password);
-  const url = `${urls.backend}user/profile`;
-  const response = await fetch(url, {
+  const path = "user/profile";
+  const options = {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -77,35 +58,19 @@ export async function updateAPI(formData) {
       confirmation,
       currentPassword,
     }),
-  });
+  };
 
-  const result = await response.json();
-  console.log(result);
-
-  if (!response.ok) {
-    throw new Error(`Error ${response.status}: ${result.message}`);
-  }
-
-  return result;
+  return contactAPI(path, options);
 }
 
+// Getting the current user from the JWT
 export async function getCurrentUser() {
-  const url = `${urls.backend}user/me`;
+  const path = "user/me";
 
-  const response = await fetch(url, {
+  const options = {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-  });
-
-  const result = await response.json();
-  console.log(result);
-
-  if (!response.ok) {
-    const error = new Error(result.message || "Request failed.");
-    error.status = response.status;
-    throw error;
-  }
-
-  return result;
+  };
+  return contactAPI(path, options);
 }

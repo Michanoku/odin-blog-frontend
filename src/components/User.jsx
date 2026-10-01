@@ -13,7 +13,6 @@ export function Login({ setUser }) {
 
     try {
       const formData = new FormData(event.currentTarget);
-      console.log(formData)
       const { token, user } = await loginAPI(formData);
 
       localStorage.setItem("token", token);
@@ -63,9 +62,6 @@ export function Register({ setUser }) {
       const { token, user } = await registerAPI(formData);
 
       localStorage.setItem("token", token);
-      console.log("REGISTER TOKEN:", token);
-      console.log("STORED TOKEN:", localStorage.getItem("token"));
-      console.log("REGISTER USER:", user);
 
       setUser(user);
       navigate("/");
