@@ -79,9 +79,13 @@ export function BlogPostList({ setCategories, category }) {
     <div className="contentColumn">
       {back}
       <h2 className="blogPostListTitle">{category ?? "Recent"} posts</h2>
-      {posts.map((post) => (
-        <BlogPostLink key={post.id} post={post} />
-      ))}
+      {posts.length > 0 ? (
+        posts.map((post) => <BlogPostLink key={post.id} post={post} />)
+      ) : (
+        <div className="contentWidth contentSpacing">
+          <p className="contentHeader">No posts yet.</p>
+        </div>
+      )}
     </div>
   );
 }

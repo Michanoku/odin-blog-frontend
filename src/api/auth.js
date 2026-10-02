@@ -74,3 +74,17 @@ export async function getCurrentUser() {
   };
   return contactAPI(path, options);
 }
+
+
+export async function changeAuthorStatus(authorStatus) {
+  const path = `user/authorStatus/${authorStatus}`;
+
+  const options = {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+
+  return contactAPI(path, options);
+}

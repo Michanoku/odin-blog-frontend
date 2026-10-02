@@ -9,7 +9,9 @@ import {
   LogOut,
   UserPlus,
   UserPen,
+  LayoutDashboard,
 } from "lucide-react";
+import urls from "../api/urls.js";
 import "../styles/header.css";
 
 // The user menu dropdown component
@@ -88,6 +90,12 @@ function ThemeToggle({ theme, themeToggle }) {
 
 // The header function
 export default function Header({ user, setUser, theme, themeToggle }) {
+  const authorLink = user?.author ? (
+    <a className="icon" href={urls.author}>
+      <LayoutDashboard />
+    </a>
+  ) : null;
+
   return (
     <header>
       <nav>
@@ -96,6 +104,7 @@ export default function Header({ user, setUser, theme, themeToggle }) {
           <Link className="icon" to="/">
             <House />
           </Link>
+          {authorLink}
           <Dropdown user={user} setUser={setUser} />
           <ThemeToggle theme={theme} themeToggle={themeToggle} />
         </div>

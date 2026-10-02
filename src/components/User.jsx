@@ -1,4 +1,4 @@
-import { loginAPI, registerAPI, updateAPI } from "../api/auth.js";
+import { loginAPI, registerAPI, updateAPI, changeAuthorStatus } from "../api/auth.js";
 import "../styles/user.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -120,6 +120,15 @@ export function Profile({ user, setUser }) {
   if (!user) {
     return navigate("/login");
   }
+
+  async function handleAuthorStatus() {
+  try {
+      await changeAuthorStatus(true);
+      alert("You are now an author!");
+    } catch (error) {
+      alert(error.message);
+    }
+  }
   async function updateUser(event) {
     event.preventDefault();
     setError(null);
@@ -183,6 +192,9 @@ export function Profile({ user, setUser }) {
         />
         <button type="submit">Update</button>
       </form>
+      <button className="cancelButton" onClick={handleAuthorStatus}>
+      Become an author
+    </button>
     </div>
   );
 }
