@@ -1,20 +1,30 @@
-import { loginAPI, registerAPI, updateAPI, changeAuthorStatus } from "../api/auth.js";
-import "../styles/user.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import {
+  changeAuthorStatus,
+  loginAPI,
+  registerAPI,
+  updateAPI,
+} from "../api/auth.js";
+import "../styles/user.css";
+
+// The user login component
 export function Login({ setUser }) {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
+  // Login the user
   async function loginUser(event) {
     event.preventDefault();
     setError(null);
 
     try {
+      // Take the data and send it to the API, get the token and user back
       const formData = new FormData(event.currentTarget);
       const { token, user } = await loginAPI(formData);
 
+      // Set the token in local storage and the user in the state
       localStorage.setItem("token", token);
       setUser(user);
       navigate("/");
@@ -50,19 +60,22 @@ export function Login({ setUser }) {
   );
 }
 
+// The register component
 export function Register({ setUser }) {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
+  // Register the user
   async function registerUser(event) {
     event.preventDefault();
     setError(null);
     try {
+      // Take the data and send it to the API, get the token and user back
       const formData = new FormData(event.currentTarget);
       const { token, user } = await registerAPI(formData);
 
+      // Set the token in local storage and the user in the state
       localStorage.setItem("token", token);
-
       setUser(user);
       navigate("/");
     } catch (error) {
@@ -113,30 +126,32 @@ export function Register({ setUser }) {
   );
 }
 
+// The profile component
 export function Profile({ user, setUser }) {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
-  if (!user) {
-    return navigate("/login");
-  }
-
+  // Change the users status to author
   async function handleAuthorStatus() {
-  try {
+    try {
       await changeAuthorStatus(true);
       alert("You are now an author!");
     } catch (error) {
       alert(error.message);
     }
   }
+
+  // Update the user data
   async function updateUser(event) {
     event.preventDefault();
     setError(null);
 
     try {
+      // Take the data and send it to the API, get the user back
       const formData = new FormData(event.currentTarget);
       const { user } = await updateAPI(formData);
 
+      // Set the user in the state
       setUser(user);
       navigate("/");
     } catch (error) {
@@ -193,8 +208,8 @@ export function Profile({ user, setUser }) {
         <button type="submit">Update</button>
       </form>
       <button className="cancelButton" onClick={handleAuthorStatus}>
-      Become an author
-    </button>
+        Become an author
+      </button>
     </div>
   );
 }

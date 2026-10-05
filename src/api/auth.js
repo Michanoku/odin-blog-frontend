@@ -1,9 +1,12 @@
+// All API communication that have to do with users and auth are in this file
 import { contactAPI } from "./api.js";
 
 // The login event sending the data to the api.
 export async function loginAPI(formData) {
-  const email = formData.get("email");
-  const password = formData.get("password");
+  const data = {
+    email: formData.get("email"),
+    password: formData.get("password"),
+  };
 
   const path = "user/login";
   const options = {
@@ -11,7 +14,7 @@ export async function loginAPI(formData) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify(data),
   };
 
   return contactAPI(path, options);
@@ -19,10 +22,12 @@ export async function loginAPI(formData) {
 
 // The register event sending the data to the api.
 export async function registerAPI(formData) {
-  const email = formData.get("email");
-  const username = formData.get("username");
-  const password = formData.get("password");
-  const confirmation = formData.get("confirmation");
+  const data = {
+    email: formData.get("email"),
+    username: formData.get("username"),
+    password: formData.get("password"),
+    confirmation: formData.get("confirmation"),
+  };
 
   const path = "user/register";
   const options = {
@@ -30,7 +35,7 @@ export async function registerAPI(formData) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, username, password, confirmation }),
+    body: JSON.stringify(data),
   };
 
   return contactAPI(path, options);
@@ -38,11 +43,13 @@ export async function registerAPI(formData) {
 
 // The update event sending the data to the api.
 export async function updateAPI(formData) {
-  const email = formData.get("email");
-  const username = formData.get("username");
-  const password = formData.get("password");
-  const confirmation = formData.get("confirmation");
-  const currentPassword = formData.get("currentPassword");
+  const data = {
+    email: formData.get("email"),
+    username: formData.get("username"),
+    password: formData.get("password"),
+    confirmation: formData.get("confirmation"),
+    currentPassword: formData.get("currentPassword"),
+  };
 
   const path = "user/profile";
   const options = {
@@ -51,13 +58,7 @@ export async function updateAPI(formData) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-    body: JSON.stringify({
-      email,
-      username,
-      password,
-      confirmation,
-      currentPassword,
-    }),
+    body: JSON.stringify(data),
   };
 
   return contactAPI(path, options);
@@ -75,7 +76,7 @@ export async function getCurrentUser() {
   return contactAPI(path, options);
 }
 
-
+// Changing the users author status
 export async function changeAuthorStatus(authorStatus) {
   const path = `user/authorStatus/${authorStatus}`;
 

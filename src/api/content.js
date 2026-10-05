@@ -1,3 +1,4 @@
+// All API communication that have to do with posts and comments are in this file
 import { contactAPI } from "./api.js";
 
 // Get all posts from the backend

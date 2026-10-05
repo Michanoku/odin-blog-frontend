@@ -1,7 +1,8 @@
-import { User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { User } from "lucide-react";
 import "../../styles/content/contentAside.css";
 
+// The aside part of the content. Shows the user if they are logged in and categories
 export function ContentAside({ user, categories }) {
   return (
     <aside>

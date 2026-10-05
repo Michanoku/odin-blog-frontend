@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+
 import {
   getPosts,
   getSinglePost,
@@ -9,10 +10,12 @@ import {
 import { CommentSection } from "./CommentSection.jsx";
 import "../../../styles/content/blog/blogPost.css";
 
+// A single BlogPost with comments
 export function BlogPost({ postId, user, setCategories }) {
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
 
+  // Get all posts and set the unique categories (for an actual app this may be worth doing differently)
   useEffect(() => {
     getPosts().then((posts) => {
       const uniqueCategories = [
@@ -23,6 +26,7 @@ export function BlogPost({ postId, user, setCategories }) {
     });
   }, []);
 
+  // Get the post and all comments and set them, changes with the postId
   useEffect(() => {
     Promise.all([getSinglePost(postId), getAllComments(postId)]).then(
       ([post, comments]) => {
@@ -32,6 +36,7 @@ export function BlogPost({ postId, user, setCategories }) {
     );
   }, [postId]);
 
+  // Wait until the post has loaded
   if (!post) {
     return <div>Loading...</div>;
   }
