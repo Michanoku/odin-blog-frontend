@@ -2,6 +2,16 @@
 
 Frontend application for The Odin Project Blog project, built with **React** and **Vite**.
 
+## Project Repositories
+
+The Odin Project Blog is split across three repositories:
+
+| Part                | Repository                                                                              |
+| ------------------- | --------------------------------------------------------------------------------------- |
+| **Backend**         | [odin-blog-backend](https://github.com/Michanoku/odin-blog-backend)                     |
+| **Frontend**        | **This repository**                                                                     |
+| **Author**          | [odin-blog-author](https://github.com/Michanoku/odin-blog-author)                       |
+
 ## Overview
 
 The frontend provides the user interface for interacting with the Michanoku Blog API.
