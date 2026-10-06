@@ -75,7 +75,7 @@ function App() {
         theme={theme}
         themeToggle={themeToggle}
       />
-      <main>
+      <main className="responsivePadding">
         <Routes>
           <Route path="/" element={<Content user={user} />} />
           <Route path="/category/:category" element={<Content user={user} />} />

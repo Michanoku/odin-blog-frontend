@@ -103,7 +103,7 @@ export default function Header({ user, setUser, theme, themeToggle }) {
   ) : null;
 
   return (
-    <header>
+    <header className="responsivePadding">
       <nav>
         <h1 className="siteTitle">Michanoku Blog</h1>
         <div className="icons">
