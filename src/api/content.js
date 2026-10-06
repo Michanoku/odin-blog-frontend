@@ -4,19 +4,34 @@ import { contactAPI } from "./api.js";
 // Get all posts from the backend
 export async function getPosts() {
   const path = "posts";
-  return contactAPI(path);
+  const options = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+  return contactAPI(path, options);
 }
 
 // Get only a single post from the backend
 export async function getSinglePost(postId) {
   const path = `posts/${postId}`;
-  return contactAPI(path);
+  const options = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+  return contactAPI(path, options);
 }
 
 // Get all comments for a post using the postId
 export async function getAllComments(postId) {
   const path = `posts/${postId}/comments/`;
-  return contactAPI(path);
+  const options = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  };
+  return contactAPI(path, options);
 }
 
 // Post a new comment to a post

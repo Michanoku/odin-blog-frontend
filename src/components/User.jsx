@@ -131,6 +131,10 @@ export function Profile({ user, setUser }) {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
+  if (!user) {
+    return navigate("/login");
+  }
+
   // Change the users status to author
   async function handleAuthorStatus() {
     try {

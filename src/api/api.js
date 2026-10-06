@@ -22,7 +22,7 @@ export async function contactAPI(path, options) {
       throw error;
     }
 
-    // REturn the result
+    // Return the result
     return result;
   } catch (error) {
     console.error(error);
